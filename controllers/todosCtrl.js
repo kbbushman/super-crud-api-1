@@ -13,9 +13,9 @@ module.exports = {
 
   create: (req, res) => {
       var newTodo = req.body;
-      newTodo.create(newTodo, function (err, savedTodo) {
+      Todo.create(newTodo, function (err, savedTodo) {
         err ? res.status(500).json({ error: err.message }) :
-          res.status(201).json(savedTodo);
+        res.json(savedTodo);
       });
   },
 
@@ -35,17 +35,21 @@ module.exports = {
   },
 
   destroy: (req, res) => {
-    var todoId = req.params.id;
-    // Todo.findOneAndRemove({ _id: todoId }, util.getSingularResponse.bind(res));
-    Todo.findOneAndRemove({ _id: todoId }, function (err, removedTodo) {
+    console.log(req.params)
+    var todoId = req.params.todoId;
+    Todo.findByIdAndRemove(todoId, function (err, removedTodo) {
       err ? res.status(500).json({ error: err.message }) :
       res.json(removedTodo);
     });
   },
 
   update: (req, res) => {
+    // console.log(req.params)
     var todoId = req.params.todoId;
     var updateTodo = req.body;
-    Todo.findOneAndUpdate({ _id: todoId }, req.body, util.getSingularResponse.bind(res));
+    Todo.findByIdAndUpdate(todoId, req.body, { new: true }, function(err, updatedTodo) {
+      err ? res.status(500).json({ error: err.message }) :
+      res.json(updatedTodo);
+    });
   }
 };

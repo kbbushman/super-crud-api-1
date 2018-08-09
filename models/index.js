@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 mongoose.connect(
   process.env.MONGODB_URI ||
   process.env.MONGOHQ_URL ||
-  'mongodb://localhost/super-crud-api'
+  'mongodb://localhost/super-crud-api',
+  { useMongoClient: true }
 );
 
 var mdb = mongoose.connection;
