@@ -36,7 +36,11 @@ module.exports = {
 
   destroy: (req, res) => {
     var todoId = req.params.id;
-    Todo.findOneAndRemove({ _id: todoId }, util.getSingularResponse.bind(res));
+    // Todo.findOneAndRemove({ _id: todoId }, util.getSingularResponse.bind(res));
+    Todo.findOneAndRemove({ _id: todoId }, (err, removedTodo) => {
+      if (err) res.sendStatus(500).json(err)
+      res.sendStatus(200).json(removedTodo)
+    });
   },
 
   update: (req, res) => {
