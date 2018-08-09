@@ -4,6 +4,11 @@ mongoose.connect(
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/super-crud-api'
 );
+
+var mdb = mongoose.connection;
+
+mdb.on('error', console.error.bind(console, 'connection error:'));
+
 var Book = require('./book');
 var Wine = require('./wine');
 var Pokemon = require('./pokemon');
